@@ -1,0 +1,28 @@
+{
+	"itemGroup.ml.layers":"Layers",
+
+	"block.ml.dirt_layer":"Dirt Layer",
+	"block.ml.coarse_dirt_layer":"Coarse Dirt Layer",
+	"block.ml.podzol_layer":"Podzol Layer",
+	"block.ml.mycelium_layer":"Mycelium Layer",
+	"block.ml.grass_block_layer":"Grass Layer",
+	"block.ml.grass_path_layer":"Grass Path Layer",
+	"block.ml.sand_layer":"Sand Layer",
+	"block.ml.red_sand_layer":"Red Sand Layer",
+	"block.ml.sandstone_layer":"Sandstone Layer",
+	"block.ml.red_sandstone_layer":"Red Sandstone Layer",
+	"block.ml.gravel_layer":"Gravel Layer",
+	"block.ml.cobblestone_layer":"Cobblestone Layer",
+	"block.ml.stone_layer":"Stone Layer",
+	"block.ml.granite_layer":"Granite Layer",
+	"block.ml.andesite_layer":"Andesite Layer",
+	"block.ml.diorite_layer":"Diorite Layer",
+	"block.ml.mossy_cobblestone_layer":"Mossy Cobblestone Layer",
+	"block.ml.hay_block_layer":"Hay Block Layer",
+	"block.ml.oak_leaves_layer":"Oak Leaves Layer",
+	"block.ml.birch_leaves_layer":"Birch Leaves Layer",
+	"block.ml.spruce_leaves_layer":"Spruce Leaves Layer",
+	"block.ml.jungle_leaves_layer":"Jungle Leaves Layer",
+	"block.ml.dark_oak_leaves_layer":"Dark Oak Leaves Layer",
+	"block.ml.acacia_leaves_layer":"Acacia Leaves Layer"
+}
