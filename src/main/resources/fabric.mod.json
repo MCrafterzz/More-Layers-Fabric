@@ -8,8 +8,6 @@
   "authors": [
     "MCrafterzz"
   ],
-
-  "environment": "*",
   "entrypoints": {
     "main": [
       "ml.MoreLayers"

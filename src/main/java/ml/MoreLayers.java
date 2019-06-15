@@ -25,7 +25,13 @@ public class MoreLayers implements ModInitializer {
 	public static Block acacia_leaves_layer, andesite_layer, birch_leaves_layer, coarse_dirt_layer, cobblestone_layer,
 			dark_oak_leaves_layer, diorite_layer, dirt_layer, granite_layer, grass_block_layer, grass_path_layer,
 			gravel_layer, jungle_leaves_layer, mossy_cobblestone_layer, mycelium_layer, oak_leaves_layer, podzol_layer,
-			red_sand_layer, red_sandstone_layer, sand_layer, sandstone_layer, spruce_leaves_layer, stone_layer, hay_block_layer;
+			red_sand_layer, red_sandstone_layer, sand_layer, sandstone_layer, spruce_leaves_layer, stone_layer,
+			hay_block_layer, white_concrete_powder_layer, orange_concrete_powder_layer, magenta_concrete_powder_layer,
+			light_blue_concrete_powder_layer, yellow_concrete_powder_layer, lime_concrete_powder_layer,
+			pink_concrete_powder_layer, gray_concrete_powder_layer, light_gray_concrete_powder_layer,
+			cyan_concrete_powder_layer, purple_concrete_powder_layer, blue_concrete_powder_layer,
+			brown_concrete_powder_layer, green_concrete_powder_layer, red_concrete_powder_layer,
+			black_concrete_powder_layer;
 
 	@Override
 	public void onInitialize() {
@@ -39,12 +45,13 @@ public class MoreLayers implements ModInitializer {
 
 		registerBlocks();
 
+		// Convert block to layers
 		UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
 			if (!world.isClient && player.isSneaking() == true) {
 				if (((ServerPlayerEntity) player).interactionManager.getGameMode() == GameMode.SURVIVAL
 						|| ((ServerPlayerEntity) player).interactionManager.getGameMode() == GameMode.CREATIVE) {
 					Block block = world.getBlockState(hitResult.getBlockPos()).getBlock();
-					if (block instanceof SnowBlock || block instanceof BlockLayer) {
+					if (block instanceof SnowBlock || block instanceof BlockLayer || block instanceof BlockConcretePowderLayer) {
 						if (player.getStackInHand(hand).getItem() instanceof ShovelItem) {
 							int newHeight = world.getBlockState(hitResult.getBlockPos()).get(BlockLayer.LAYERS) - 1;
 
@@ -63,101 +70,165 @@ public class MoreLayers implements ModInitializer {
 						}
 					} else {
 						if (player.getStackInHand(hand).getItem() instanceof ShovelItem) {
-							if (block.getTranslationKey().equals("block.minecraft.grass_block")) {
+							if (block == Blocks.GRASS_BLOCK) {
 								world.setBlockState(hitResult.getBlockPos(),
 										grass_block_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
 								player.getStackInHand(hand).damage(1, player, null);
-							} else if (block.getTranslationKey().equals("block.minecraft.snow_block")) {
+							} else if (block == Blocks.SNOW_BLOCK) {
 								world.setBlockState(hitResult.getBlockPos(),
 										Blocks.SNOW.getDefaultState().with(BlockLayer.LAYERS, 8));
 								player.getStackInHand(hand).damage(1, player, null);
-							} else if (block.getTranslationKey().equals("block.minecraft.grass_path")) {
+							} else if (block == Blocks.GRASS_PATH) {
 								world.setBlockState(hitResult.getBlockPos(),
 										grass_path_layer.getDefaultState().with(BlockLayer.LAYERS, 7));
 								player.getStackInHand(hand).damage(1, player, null);
-							} else if (block.getTranslationKey().equals("block.minecraft.dirt")) {
+							} else if (block == Blocks.DIRT) {
 								world.setBlockState(hitResult.getBlockPos(),
 										dirt_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
 								player.getStackInHand(hand).damage(1, player, null);
-							} else if (block.getTranslationKey().equals("block.minecraft.mycelium")) {
+							} else if (block == Blocks.MYCELIUM) {
 								world.setBlockState(hitResult.getBlockPos(),
 										mycelium_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
 								player.getStackInHand(hand).damage(1, player, null);
-							} else if (block.getTranslationKey().equals("block.minecraft.podzol")) {
+							} else if (block == Blocks.PODZOL) {
 								world.setBlockState(hitResult.getBlockPos(),
 										podzol_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
 								player.getStackInHand(hand).damage(1, player, null);
-							} else if (block.getTranslationKey().equals("block.minecraft.coarse_dirt")) {
+							} else if (block == Blocks.COARSE_DIRT) {
 								world.setBlockState(hitResult.getBlockPos(),
 										coarse_dirt_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
 								player.getStackInHand(hand).damage(1, player, null);
-							} else if (block.getTranslationKey().equals("block.minecraft.sand")) {
+							} else if (block == Blocks.SAND) {
 								world.setBlockState(hitResult.getBlockPos(),
 										sand_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
 								player.getStackInHand(hand).damage(1, player, null);
-							} else if (block.getTranslationKey().equals("block.minecraft.red_sand")) {
+							} else if (block == Blocks.RED_SAND) {
 								world.setBlockState(hitResult.getBlockPos(),
 										red_sand_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
 								player.getStackInHand(hand).damage(1, player, null);
-							} else if (block.getTranslationKey().equals("block.minecraft.sandstone")) {
+							} else if (block == Blocks.SANDSTONE) {
 								world.setBlockState(hitResult.getBlockPos(),
 										sandstone_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
 								player.getStackInHand(hand).damage(1, player, null);
-							} else if (block.getTranslationKey().equals("block.minecraft.red_sandstone")) {
+							} else if (block == Blocks.RED_SANDSTONE) {
 								world.setBlockState(hitResult.getBlockPos(),
 										red_sandstone_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
 								player.getStackInHand(hand).damage(1, player, null);
-							} else if (block.getTranslationKey().equals("block.minecraft.cobblestone")) {
+							} else if (block == Blocks.COBBLESTONE) {
 								world.setBlockState(hitResult.getBlockPos(),
 										cobblestone_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
 								player.getStackInHand(hand).damage(1, player, null);
-							} else if (block.getTranslationKey().equals("block.minecraft.mossy_cobblestone")) {
+							} else if (block == Blocks.MOSSY_COBBLESTONE) {
 								world.setBlockState(hitResult.getBlockPos(),
 										mossy_cobblestone_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
 								player.getStackInHand(hand).damage(1, player, null);
-							} else if (block.getTranslationKey().equals("block.minecraft.stone")) {
+							} else if (block == Blocks.STONE) {
 								world.setBlockState(hitResult.getBlockPos(),
 										stone_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
 								player.getStackInHand(hand).damage(1, player, null);
-							} else if (block.getTranslationKey().equals("block.minecraft.diorite")) {
+							} else if (block == Blocks.DIORITE) {
 								world.setBlockState(hitResult.getBlockPos(),
 										diorite_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
 								player.getStackInHand(hand).damage(1, player, null);
-							} else if (block.getTranslationKey().equals("block.minecraft.granite")) {
+							} else if (block == Blocks.GRANITE) {
 								world.setBlockState(hitResult.getBlockPos(),
 										granite_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
 								player.getStackInHand(hand).damage(1, player, null);
-							} else if (block.getTranslationKey().equals("block.minecraft.andesite")) {
+							} else if (block == Blocks.ANDESITE) {
 								world.setBlockState(hitResult.getBlockPos(),
 										andesite_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
 								player.getStackInHand(hand).damage(1, player, null);
-							} else if (block.getTranslationKey().equals("block.minecraft.oak_leaves")) {
+							} else if (block == Blocks.OAK_LEAVES) {
 								world.setBlockState(hitResult.getBlockPos(),
 										oak_leaves_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
 								player.getStackInHand(hand).damage(1, player, null);
-							} else if (block.getTranslationKey().equals("block.minecraft.birch_leaves")) {
+							} else if (block == Blocks.BIRCH_LEAVES) {
 								world.setBlockState(hitResult.getBlockPos(),
 										birch_leaves_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
 								player.getStackInHand(hand).damage(1, player, null);
-							} else if (block.getTranslationKey().equals("block.minecraft.spruce_leaves")) {
+							} else if (block == Blocks.SPRUCE_LEAVES) {
 								world.setBlockState(hitResult.getBlockPos(),
 										spruce_leaves_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
 								player.getStackInHand(hand).damage(1, player, null);
-							} else if (block.getTranslationKey().equals("block.minecraft.jungle_leaves")) {
+							} else if (block == Blocks.JUNGLE_LEAVES) {
 								world.setBlockState(hitResult.getBlockPos(),
 										jungle_leaves_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
 								player.getStackInHand(hand).damage(1, player, null);
-							} else if (block.getTranslationKey().equals("block.minecraft.dark_oak_leaves")) {
+							} else if (block == Blocks.DARK_OAK_LEAVES) {
 								world.setBlockState(hitResult.getBlockPos(),
 										dark_oak_leaves_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
 								player.getStackInHand(hand).damage(1, player, null);
-							} else if (block.getTranslationKey().equals("block.minecraft.acacia_leaves")) {
+							} else if (block == Blocks.ACACIA_LEAVES) {
 								world.setBlockState(hitResult.getBlockPos(),
 										acacia_leaves_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
 								player.getStackInHand(hand).damage(1, player, null);
-							} else if (block.getTranslationKey().equals("block.minecraft.hay_block")) {
+							} else if (block == Blocks.HAY_BLOCK) {
 								world.setBlockState(hitResult.getBlockPos(),
 										hay_block_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
+								player.getStackInHand(hand).damage(1, player, null);
+							} else if (block == Blocks.WHITE_CONCRETE_POWDER) {
+								world.setBlockState(hitResult.getBlockPos(),
+										white_concrete_powder_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
+								player.getStackInHand(hand).damage(1, player, null);
+							} else if (block == Blocks.ORANGE_CONCRETE_POWDER) {
+								world.setBlockState(hitResult.getBlockPos(),
+										orange_concrete_powder_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
+								player.getStackInHand(hand).damage(1, player, null);
+							} else if (block == Blocks.MAGENTA_CONCRETE_POWDER) {
+								world.setBlockState(hitResult.getBlockPos(),
+										magenta_concrete_powder_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
+								player.getStackInHand(hand).damage(1, player, null);
+							} else if (block == Blocks.LIGHT_BLUE_CONCRETE_POWDER) {
+								world.setBlockState(hitResult.getBlockPos(),
+										light_blue_concrete_powder_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
+								player.getStackInHand(hand).damage(1, player, null);
+							} else if (block == Blocks.YELLOW_CONCRETE_POWDER) {
+								world.setBlockState(hitResult.getBlockPos(),
+										yellow_concrete_powder_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
+								player.getStackInHand(hand).damage(1, player, null);
+							} else if (block == Blocks.LIME_CONCRETE_POWDER) {
+								world.setBlockState(hitResult.getBlockPos(),
+										lime_concrete_powder_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
+								player.getStackInHand(hand).damage(1, player, null);
+							} else if (block == Blocks.PINK_CONCRETE_POWDER) {
+								world.setBlockState(hitResult.getBlockPos(),
+										pink_concrete_powder_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
+								player.getStackInHand(hand).damage(1, player, null);
+							} else if (block == Blocks.GRAY_CONCRETE_POWDER) {
+								world.setBlockState(hitResult.getBlockPos(),
+										gray_concrete_powder_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
+								player.getStackInHand(hand).damage(1, player, null);
+							} else if (block == Blocks.LIGHT_GRAY_CONCRETE_POWDER) {
+								world.setBlockState(hitResult.getBlockPos(),
+										light_gray_concrete_powder_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
+								player.getStackInHand(hand).damage(1, player, null);
+							} else if (block == Blocks.CYAN_CONCRETE_POWDER) {
+								world.setBlockState(hitResult.getBlockPos(),
+										cyan_concrete_powder_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
+								player.getStackInHand(hand).damage(1, player, null);
+							} else if (block == Blocks.PURPLE_CONCRETE_POWDER) {
+								world.setBlockState(hitResult.getBlockPos(),
+										purple_concrete_powder_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
+								player.getStackInHand(hand).damage(1, player, null);
+							} else if (block == Blocks.BLUE_CONCRETE_POWDER) {
+								world.setBlockState(hitResult.getBlockPos(),
+										blue_concrete_powder_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
+								player.getStackInHand(hand).damage(1, player, null);
+							} else if (block == Blocks.BROWN_CONCRETE_POWDER) {
+								world.setBlockState(hitResult.getBlockPos(),
+										brown_concrete_powder_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
+								player.getStackInHand(hand).damage(1, player, null);
+							} else if (block == Blocks.GREEN_CONCRETE_POWDER) {
+								world.setBlockState(hitResult.getBlockPos(),
+										green_concrete_powder_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
+								player.getStackInHand(hand).damage(1, player, null);
+							} else if (block == Blocks.RED_CONCRETE_POWDER) {
+								world.setBlockState(hitResult.getBlockPos(),
+										red_concrete_powder_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
+								player.getStackInHand(hand).damage(1, player, null);
+							} else if (block == Blocks.BLACK_CONCRETE_POWDER) {
+								world.setBlockState(hitResult.getBlockPos(),
+										black_concrete_powder_layer.getDefaultState().with(BlockLayer.LAYERS, 8));
 								player.getStackInHand(hand).damage(1, player, null);
 							}
 							return ActionResult.PASS;
@@ -180,13 +251,13 @@ public class MoreLayers implements ModInitializer {
 		mycelium_layer = registerBlock(Blocks.MYCELIUM);
 		grass_block_layer = registerBlock(Blocks.GRASS_BLOCK);
 		grass_path_layer = registerBlock(Blocks.GRASS_PATH);
-		sand_layer = registerBlock(Blocks.SAND);
-		red_sand_layer = registerBlock(Blocks.RED_SAND);
+		sand_layer = registerConcretePowderBlock(Blocks.SAND);
+		red_sand_layer = registerConcretePowderBlock(Blocks.RED_SAND);
 		sandstone_layer = registerBlock(Blocks.SANDSTONE);
 		red_sandstone_layer = registerBlock(Blocks.RED_SANDSTONE);
-		gravel_layer = registerBlock(Blocks.GRAVEL);
+		gravel_layer = registerConcretePowderBlock(Blocks.GRAVEL);
 		hay_block_layer = registerBlock(Blocks.HAY_BLOCK);
-		
+
 		cobblestone_layer = registerBlock(Blocks.COBBLESTONE);
 		mossy_cobblestone_layer = registerBlock(Blocks.MOSSY_COBBLESTONE);
 		stone_layer = registerBlock(Blocks.STONE);
@@ -200,6 +271,23 @@ public class MoreLayers implements ModInitializer {
 		spruce_leaves_layer = registerBlock(Blocks.SPRUCE_LEAVES, BlockRenderLayer.CUTOUT);
 		dark_oak_leaves_layer = registerBlock(Blocks.DARK_OAK_LEAVES, BlockRenderLayer.CUTOUT);
 		acacia_leaves_layer = registerBlock(Blocks.ACACIA_LEAVES, BlockRenderLayer.CUTOUT);
+
+		white_concrete_powder_layer = registerConcretePowderBlock(Blocks.WHITE_CONCRETE_POWDER);
+		orange_concrete_powder_layer = registerConcretePowderBlock(Blocks.ORANGE_CONCRETE_POWDER);
+		magenta_concrete_powder_layer = registerConcretePowderBlock(Blocks.MAGENTA_CONCRETE_POWDER);
+		light_blue_concrete_powder_layer = registerConcretePowderBlock(Blocks.LIGHT_BLUE_CONCRETE_POWDER);
+		yellow_concrete_powder_layer = registerConcretePowderBlock(Blocks.YELLOW_CONCRETE_POWDER);
+		lime_concrete_powder_layer = registerConcretePowderBlock(Blocks.LIME_CONCRETE_POWDER);
+		pink_concrete_powder_layer = registerConcretePowderBlock(Blocks.PINK_CONCRETE_POWDER);
+		gray_concrete_powder_layer = registerConcretePowderBlock(Blocks.GRAY_CONCRETE_POWDER);
+		light_gray_concrete_powder_layer = registerConcretePowderBlock(Blocks.LIGHT_GRAY_CONCRETE_POWDER);
+		cyan_concrete_powder_layer = registerConcretePowderBlock(Blocks.CYAN_CONCRETE_POWDER);
+		purple_concrete_powder_layer = registerConcretePowderBlock(Blocks.PURPLE_CONCRETE_POWDER);
+		blue_concrete_powder_layer = registerConcretePowderBlock(Blocks.BLUE_CONCRETE_POWDER);
+		brown_concrete_powder_layer = registerConcretePowderBlock(Blocks.BROWN_CONCRETE_POWDER);
+		green_concrete_powder_layer = registerConcretePowderBlock(Blocks.GREEN_CONCRETE_POWDER);
+		red_concrete_powder_layer = registerConcretePowderBlock(Blocks.RED_CONCRETE_POWDER);
+		black_concrete_powder_layer = registerConcretePowderBlock(Blocks.BLACK_CONCRETE_POWDER);
 	}
 
 	private Block registerBlock(Block block) {
@@ -208,6 +296,16 @@ public class MoreLayers implements ModInitializer {
 
 	private Block registerBlock(Block block, BlockRenderLayer blockRenderLayer) {
 		Block block2 = new BlockLayer(block, blockRenderLayer);
+		Registry.register(Registry.BLOCK,
+				new Identifier("ml", block.getTranslationKey().replace("block.minecraft.", "") + "_layer"), block2);
+		BlockItem blockItem = new BlockItem(block2, new Item.Settings().group(itemGroup));
+		Registry.register(Registry.ITEM,
+				new Identifier("ml", block.getTranslationKey().replace("block.minecraft.", "") + "_layer"), blockItem);
+		return block2;
+	}
+
+	private Block registerConcretePowderBlock(Block block) {
+		Block block2 = new BlockConcretePowderLayer(block);
 		Registry.register(Registry.BLOCK,
 				new Identifier("ml", block.getTranslationKey().replace("block.minecraft.", "") + "_layer"), block2);
 		BlockItem blockItem = new BlockItem(block2, new Item.Settings().group(itemGroup));

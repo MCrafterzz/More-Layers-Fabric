@@ -1,10 +1,9 @@
 package ml;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockPlacementEnvironment;
-import net.minecraft.block.BlockRenderLayer;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.FallingBlock;
 import net.minecraft.entity.EntityContext;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -20,30 +19,13 @@ import net.minecraft.world.GameMode;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.ViewableWorld;
 
-public class BlockLayer extends Block {
-
+public class BlockConcretePowderLayer extends FallingBlock {
 	public static final IntProperty LAYERS;
 	protected static final VoxelShape[] LAYERS_TO_SHAPE;
-	public BlockRenderLayer blockRenderLayer;
 
-	protected BlockLayer(Block block, BlockRenderLayer blockRenderLayer) {
+	protected BlockConcretePowderLayer(Block block) {
 		super(Block.Settings.copy(block));
-		this.blockRenderLayer = blockRenderLayer;
 		this.setDefaultState((BlockState) ((BlockState) this.stateFactory.getDefaultState()).with(LAYERS, 1));
-	}
-
-	public boolean canPlaceAtSide(BlockState blockState_1, BlockView blockView_1, BlockPos blockPos_1,
-			BlockPlacementEnvironment blockPlacementEnvironment_1) {
-		switch (blockPlacementEnvironment_1) {
-		case LAND:
-			return (Integer) blockState_1.get(LAYERS) < 5;
-		case WATER:
-			return false;
-		case AIR:
-			return false;
-		default:
-			return false;
-		}
 	}
 
 	public VoxelShape getOutlineShape(BlockState blockState_1, BlockView blockView_1, BlockPos blockPos_1,
@@ -64,8 +46,11 @@ public class BlockLayer extends Block {
 		BlockState blockState_2 = viewableWorld_1.getBlockState(blockPos_1.down());
 		Block block_1 = blockState_2.getBlock();
 		if (block_1 != Blocks.BARRIER) {
-			return Block.isFaceFullSquare(blockState_2.getCollisionShape(viewableWorld_1, blockPos_1.down()),
-					Direction.UP);
+			if (block_1 == this && blockState_2.get(LAYERS).intValue() < 8) {
+				return false;
+			} else {
+				return true;
+			}
 		} else {
 			return false;
 		}
@@ -145,13 +130,5 @@ public class BlockLayer extends Block {
 				Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D),
 				Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D),
 				Block.createCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D) };
-	}
-
-	public boolean isFullBoundsCubeForCulling(BlockState blockState_1) {
-		return blockRenderLayer == BlockRenderLayer.SOLID ? true : false;
-	}
-
-	public BlockRenderLayer getRenderLayer() {
-		return blockRenderLayer;
 	}
 }
